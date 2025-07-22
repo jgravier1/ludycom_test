@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ludycom_test/config/di/locator.dart';
 import 'package:ludycom_test/config/router/app_router.dart';
 
 void main() {
+  setupLocator();
   runApp(const MainApp());
 }
 
