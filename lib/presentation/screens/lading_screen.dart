@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:ludycom_test/presentation/views/lading_view.dart';
 class LadingScreen extends StatelessWidget {
   const LadingScreen({super.key});
 
@@ -9,7 +10,7 @@ class LadingScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Catebreeds'),
       ),
-      body: SearchBar() ,
+      body: LadingView()
     );
   }
 }
