@@ -43,7 +43,7 @@ class _LadingViewState extends State<LadingView> {
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: GestureDetector(
                         onTap: () {
-                          context.push('/details');
+                          context.push('/details', extra: provider.cats[index]);
                         },
                         child: Card(
                           elevation: 2,

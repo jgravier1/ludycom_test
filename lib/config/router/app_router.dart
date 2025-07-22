@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:ludycom_test/domain/entities/cat_entity.dart';
 import 'package:ludycom_test/presentation/screens/detail_screen.dart';
 import 'package:ludycom_test/presentation/screens/lading_screen.dart';
 
@@ -14,7 +15,8 @@ class AppRouter {
       GoRoute(
         path: '/details',
         builder: (context, state) {
-          return const DetailScreen();
+          final catEntity = state.extra as CatEntity;
+          return DetailScreen( catEntity: catEntity,);
         },
       ),
     ],

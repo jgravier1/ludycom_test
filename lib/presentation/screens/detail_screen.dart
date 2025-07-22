@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ludycom_test/domain/entities/cat_entity.dart';
 import 'package:ludycom_test/presentation/views/detail_view.dart';
 
 class DetailScreen extends StatelessWidget {
-  const DetailScreen({super.key});
+  final CatEntity catEntity;
+  const DetailScreen({super.key, required this.catEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +12,9 @@ class DetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Nombre Raza'),
       ),
-      body: DetailView(),
+      body: DetailView(
+        catEntity: catEntity,
+      ),
     );
   }
 }

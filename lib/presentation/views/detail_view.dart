@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ludycom_test/domain/entities/cat_entity.dart';
 
 class DetailView extends StatefulWidget {
-  const DetailView({super.key});
+  final CatEntity catEntity;
+  const DetailView({super.key, required this.catEntity});
 
   @override
   State<DetailView> createState() => _DetailViewState();
@@ -23,7 +25,7 @@ class _DetailViewState extends State<DetailView> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Image.network(
-                'https://placekitten.com/400/300',
+                widget.catEntity.imageUrl ?? 'https://placekitten.com/400/300',
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return const Center(
@@ -32,16 +34,13 @@ class _DetailViewState extends State<DetailView> {
                 },
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
-            // Contenido desplazable
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Descripción
                     const Text(
                       'Descripción',
                       style: TextStyle(
@@ -51,26 +50,26 @@ class _DetailViewState extends State<DetailView> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Eu cillum aute aute consectetur magna occaecat cillum. Do consectetur laboris excepteur proident fugiat in. Reprehenderit reprehenderit id sit dolor anim. Eiusmod proident Lorem eu consequat consectetur qui magna laboris mollit. Non velit tempor magna deserunt esse proident magna.Dolor sit minim cupidatat quis dolor est. Ullamco quis mollit consequat nostrud nostrud dolor adipisicing sunt. ',
+                      widget.catEntity.description ?? 'No hay descripción disponible',
                       style: TextStyle(
                         color: Colors.grey.shade800,
                       ),
                     ),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Detalles de la raza
-                    _buildDetailRow('Nombre del País', 'Desconocido'),
+                    _buildDetailRow('Nombre del País', widget.catEntity.origin),
                     const SizedBox(height: 12),
-                    _buildDetailRow('Inteligencia', 'Alta'),
+                    _buildDetailRow('Inteligencia', '${widget.catEntity.intelligence}'),
                     const SizedBox(height: 12),
-                    _buildDetailRow('Adaptabilidad', 'Media'),
+                    _buildDetailRow('Adaptabilidad', '${widget.catEntity.adaptability}'),
                     const SizedBox(height: 12),
-                    _buildDetailRow('Tiempo de vida', '12-15 años'),
+                    _buildDetailRow('Tiempo de vida', '${widget.catEntity.lifeSpan} años'),
                     const SizedBox(height: 12),
-                    _buildDetailRow('Temperamento', 'Juguetón, amigable'),
+                    _buildDetailRow('Temperamento', widget.catEntity.temperament),
                     const SizedBox(height: 12),
-                    _buildDetailRow('Peso promedio', '3-5 kg'),
+                    _buildDetailRow('Peso promedio', '${widget.catEntity.weight} kg'),
                   ],
                 ),
               ),
@@ -80,7 +79,7 @@ class _DetailViewState extends State<DetailView> {
       ),
     );
   }
-  
+
   Widget _buildDetailRow(String label, String value) {
     return Row(
       children: [
@@ -90,7 +89,7 @@ class _DetailViewState extends State<DetailView> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        Flexible(child: Text(value)),
+        Flexible(child: Text(value,)),
       ],
     );
   }
