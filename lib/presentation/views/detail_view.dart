@@ -42,7 +42,7 @@ class _DetailViewState extends State<DetailView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Descripción',
+                      'Description',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -50,26 +50,44 @@ class _DetailViewState extends State<DetailView> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      widget.catEntity.description ?? 'No hay descripción disponible',
-                      style: TextStyle(
-                        color: Colors.grey.shade800,
-                      ),
+                      widget.catEntity.description ??
+                          'No hay descripción disponible',
+                      style: TextStyle(color: Colors.grey.shade800),
                     ),
 
                     const SizedBox(height: 24),
 
-                    // Detalles de la raza
-                    _buildDetailRow('Nombre del País', widget.catEntity.origin),
+                    // Detalles de la raza usando el método helper
+                    _buildDetailText(
+                      //cambiar texto a ingles
+                      'Country of origin',
+                      widget.catEntity.origin,
+                    ),
                     const SizedBox(height: 12),
-                    _buildDetailRow('Inteligencia', '${widget.catEntity.intelligence}'),
+                    _buildDetailText(
+                      'Intelligence',
+                      '${widget.catEntity.intelligence}',
+                    ),
                     const SizedBox(height: 12),
-                    _buildDetailRow('Adaptabilidad', '${widget.catEntity.adaptability}'),
+                    _buildDetailText(
+                      'Adaptability',
+                      '${widget.catEntity.adaptability}',
+                    ),
                     const SizedBox(height: 12),
-                    _buildDetailRow('Tiempo de vida', '${widget.catEntity.lifeSpan} años'),
+                    _buildDetailText(
+                      'Life span',
+                      '${widget.catEntity.lifeSpan} years',
+                    ),
                     const SizedBox(height: 12),
-                    _buildDetailRow('Temperamento', widget.catEntity.temperament),
+                    _buildDetailText(
+                      'Temperament',
+                      widget.catEntity.temperament,
+                    ),
                     const SizedBox(height: 12),
-                    _buildDetailRow('Peso promedio', '${widget.catEntity.weight} kg'),
+                    _buildDetailText(
+                      'Average weight',
+                      '${widget.catEntity.weight} kg',
+                    ),
                   ],
                 ),
               ),
@@ -80,17 +98,18 @@ class _DetailViewState extends State<DetailView> {
     );
   }
 
-  Widget _buildDetailRow(String label, String value) {
-    return Row(
-      children: [
-        Text(
-          '$label: ',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
+  Widget _buildDetailText(String label, String value) {
+    return Text.rich(
+      TextSpan(
+        text: '$label: ',
+        style: const TextStyle(fontWeight: FontWeight.bold),
+        children: [
+          TextSpan(
+            text: value,
+            style: const TextStyle(fontWeight: FontWeight.normal),
           ),
-        ),
-        Flexible(child: Text(value,)),
-      ],
+        ],
+      ),
     );
   }
 }

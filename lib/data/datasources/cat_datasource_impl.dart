@@ -37,7 +37,7 @@ class CatDatasourceImpl implements CatDatasource {
         return imageData.url;
       }
       return null;
-    } on DioException catch (e) {
+    } on DioException {
       return null;
     } catch (e) {
       return null;

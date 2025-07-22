@@ -18,6 +18,7 @@ class LadingScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Catebreeds'),
+          centerTitle: true,
         ),
         body: LadingView()
       ),

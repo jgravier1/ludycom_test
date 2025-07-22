@@ -18,13 +18,25 @@ class _LadingViewState extends State<LadingView> {
 
   @override
   Widget build(BuildContext context) {
+    final FocusNode focusNode = FocusNode();
     return Consumer<CatProvider>(
       builder: (context, provider, child) {
+        if (provider.isLoading) {
+          return const Center(
+            child: CircularProgressIndicator(color: Colors.black),
+          );
+        }
+
+        final catsToShow = provider.filteredCats;
+
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Column(
             children: [
               SearchBar(
+                controller: provider.searchController,
+                focusNode: focusNode,
+                onTapOutside: (event) => focusNode.unfocus(),
                 backgroundColor: WidgetStatePropertyAll(Colors.white),
                 elevation: WidgetStatePropertyAll(0),
                 side: WidgetStatePropertyAll(
@@ -33,17 +45,34 @@ class _LadingViewState extends State<LadingView> {
                 shape: WidgetStatePropertyAll(
                   RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                 ),
-                trailing: [Icon(Icons.search)],
+                hintText: 'Search by name...',
+                onChanged: (value) => provider.updateSearchQuery(value),
+                trailing: [
+                  if (provider.searchQuery.isNotEmpty)
+                    IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: () => provider.clearSearch(),
+                    )
+                  else
+                    Icon(Icons.search),
+                ],
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: provider.cats.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: GestureDetector(
+                child: catsToShow.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'No results found',
+                          style: TextStyle(fontSize: 18, color: Colors.grey),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: catsToShow.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: GestureDetector(
                         onTap: () {
-                          context.push('/details', extra: provider.cats[index]);
+                          context.push('/details', extra: catsToShow[index]);
                         },
                         child: Card(
                           elevation: 2,
@@ -61,14 +90,14 @@ class _LadingViewState extends State<LadingView> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      provider.cats[index].name,
+                                      catsToShow[index].name,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
                                       ),
                                     ),
                                     Text(
-                                      'Más...',
+                                      'More...',
                                       style: TextStyle(
                                         color: Colors.blue,
                                         fontWeight: FontWeight.w500,
@@ -78,7 +107,8 @@ class _LadingViewState extends State<LadingView> {
                                 ),
                                 const SizedBox(height: 12),
                                 Image.network(
-                                  provider.cats[index].imageUrl ?? '',
+                                  catsToShow[index].imageUrl ??
+                                      '', // Cambiar provider.cats[index] por catsToShow[index]
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) {
                                     return Container(
@@ -99,7 +129,7 @@ class _LadingViewState extends State<LadingView> {
                                     Row(
                                       children: [
                                         Text(
-                                          'País de origen: ${provider.cats[index].origin}',
+                                          'Country of origin: ${catsToShow[index].origin}', // Cambiar provider.cats[index] por catsToShow[index]
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -109,7 +139,7 @@ class _LadingViewState extends State<LadingView> {
                                     Row(
                                       children: [
                                         Text(
-                                          'Inteligencia: ${provider.cats[index].intelligence}',
+                                          'Intelligence: ${catsToShow[index].intelligence}', // Cambiar provider.cats[index] por catsToShow[index]
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                           ),

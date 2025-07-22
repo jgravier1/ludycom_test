@@ -10,7 +10,8 @@ class DetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nombre Raza'),
+        title: Text(catEntity.name),
+        centerTitle: true,
       ),
       body: DetailView(
         catEntity: catEntity,
